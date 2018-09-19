@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraSwtich : MonoBehaviour {
+public class CameraSwitch : MonoBehaviour {
 
 	// Use this for initialization
 	private GameObject MainCamera;
@@ -30,6 +30,11 @@ public class CameraSwtich : MonoBehaviour {
 				main_camera_up = true;
 			}
 		}
-		
-	}
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
+    }
 }

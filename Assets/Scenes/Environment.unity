@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 314541871}
-  m_IndirectSpecularColor: {r: 0.73023504, g: 0.788984, b: 0.84986407, a: 1}
+  m_IndirectSpecularColor: {r: 0.73023504, g: 0.7889821, b: 0.8498593, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -398,7 +398,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 328276493}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 869374836}
@@ -406,8 +406,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 151, y: -47}
-  m_SizeDelta: {x: 240, y: 24.7}
+  m_AnchoredPosition: {x: 182.2, y: -51}
+  m_SizeDelta: {x: 302.7, y: 32.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &328276495
 MonoBehaviour:
@@ -441,7 +441,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press R to Swith Camera
+  m_Text: Press R to Switch Camera
 --- !u!222 &328276496
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -520,8 +520,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 374179898}
-  m_LocalRotation: {x: -0.002004993, y: 0.99776226, z: 0.056796987, w: 0.035222042}
-  m_LocalPosition: {x: 80.40065, y: 11.110001, z: 120.26625}
+  m_LocalRotation: {x: 0.30231878, y: 0.33260244, z: 0.11348229, w: -0.8860591}
+  m_LocalPosition: {x: 86.54272, y: -82.04576, z: 9.06945}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1003,7 +1003,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 151, y: -47}
-  m_SizeDelta: {x: 240, y: 24.7}
+  m_SizeDelta: {x: 264.47, y: 24.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &941676780
 MonoBehaviour:
@@ -1037,7 +1037,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press R to Swith Camera
+  m_Text: Press R to Switch Camera
 --- !u!222 &941676781
 CanvasRenderer:
   m_ObjectHideFlags: 0
