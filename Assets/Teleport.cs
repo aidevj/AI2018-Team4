@@ -34,6 +34,20 @@ public class Teleport : MonoBehaviour
 		{
 			playerIsOverlapping = true;
 		}
+        else if (other.tag == "Flocker" || other.tag == "Blu")
+        {
+            Vector3 portalToCapsule = other.gameObject.transform.position - transform.position;
+            float dotProduct = Vector3.Dot(transform.up, portalToCapsule);
+            if (dotProduct < 0f)
+            {
+                float rotationDiff = -Quaternion.Angle(transform.rotation, reciever.rotation);
+                rotationDiff += 0;
+                other.gameObject.transform.Rotate(Vector3.up, rotationDiff);
+
+                Vector3 postionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToCapsule;
+                other.gameObject.transform.position = reciever.position + postionOffset;
+            }
+        }
 	}
 	private void OnTriggerExit(Collider other)
 	{
