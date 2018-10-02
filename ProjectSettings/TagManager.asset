@@ -8,6 +8,7 @@ TagManager:
   - Centroid
   - Flocker
   - Blu
+  - Node
   layers:
   - Default
   - TransparentFX
