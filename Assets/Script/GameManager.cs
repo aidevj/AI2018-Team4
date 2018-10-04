@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 {
     [HideInInspector] public GameObject leader; // Leader of the flock
     private GameObject centroid; // Vector and property for the position of the center point of the flock
+    private GameObject player;
     public GameObject Centroid
     {
         get { return centroid; }
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     void Start() // Initialize the scene
     {
+        player = GameObject.FindGameObjectWithTag("Player"); 
         centroid = GameObject.FindGameObjectWithTag("Centroid"); // Get the centroid
 
         leader = GameObject.FindGameObjectWithTag("Blu"); // Get the Leader from the scene
@@ -33,6 +35,13 @@ public class GameManager : MonoBehaviour
 
     void Update() // Update the scene variables, called once per frame
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            leader.GetComponent<Leader>().setpath(
+                leader.GetComponent<AStar>().Pathfind(leader.transform.position,player.transform.position)
+                    );
+        }
+        
         if (Input.GetKeyDown(KeyCode.U))
         {
             foreach (GameObject flocker in flock)

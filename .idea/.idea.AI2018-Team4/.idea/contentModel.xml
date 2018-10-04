@@ -171,8 +171,18 @@
           </e>
         </e>
         <e p="Script" t="Include">
-          <e p="CameraSwtich.cs" t="Include" />
+          <e p="AStar.cs" t="Include" />
+          <e p="CameraSwitch.cs" t="Include" />
           <e p="Character.cs" t="Include" />
+          <e p="Flocker.cs" t="Include" />
+          <e p="GameManager.cs" t="Include" />
+          <e p="GridGenerator.cs" t="Include" />
+          <e p="Leader.cs" t="Include" />
+          <e p="Node.cs" t="Include" />
+          <e p="PriorityItem.cs" t="Include" />
+          <e p="PriorityQueue.cs" t="Include" />
+          <e p="Teleport.cs" t="Include" />
+          <e p="Vehicle.cs" t="Include" />
         </e>
         <e p="Teleport.cs" t="Include" />
         <e p="Terrain Assets" t="Include">

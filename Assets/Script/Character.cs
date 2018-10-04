@@ -12,7 +12,6 @@ public class Character : MonoBehaviour {
 	
 	public float jumpSpeed = 8f;
 
-
 	private Vector3 moveDirection = Vector3.zero;
 
 	private CharacterController controller;

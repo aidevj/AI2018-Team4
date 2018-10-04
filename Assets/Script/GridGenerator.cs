@@ -9,7 +9,10 @@ public class GridGenerator : MonoBehaviour {
     [SerializeField] private int rows;
     [SerializeField] private int columns;
     [SerializeField] private GameObject nodePrefab;
+    [SerializeField] private GameObject unwalkable_nodePrefab;
+    [SerializeField] private Material reset;
     [SerializeField] private Terrain terrain;
+    [SerializeField] private LayerMask unwalkableMask;
     
     void Start ()
     {
@@ -47,9 +50,20 @@ public class GridGenerator : MonoBehaviour {
             for (int z = 0; z < columns; z++)
             {
                 // create the node
-                GameObject node = Instantiate(nodePrefab);
+                bool walkable = !(Physics.CheckSphere(pos, xSpacing/2,unwalkableMask)); // xSpacing = zSpacing in this terrian
+                GameObject node = (walkable) ? Instantiate(nodePrefab): Instantiate(unwalkable_nodePrefab);
                 pos.y = terrain.SampleHeight(pos); // get y-pos on terrian
                 node.transform.position = pos; // set position of new node
+                if( node != null )
+                {
+                    var myScriptReference = node.GetComponent<Node>();
+                    if( myScriptReference != null )
+                    {
+                        myScriptReference.setNode(walkable,pos,x,z);
+                    }
+                }
+
+                
                 
                 // add to matrix
                 grid[x, z] = node;
@@ -66,12 +80,17 @@ public class GridGenerator : MonoBehaviour {
         }
     }
 
+    public GameObject GetNodeByCoor(int x, int z)
+    {
+        return grid[x,z];
+    }
+    
     /// <summary>
     /// Gets the cooresponding node on the grid from a coordinate in world space
     /// </summary>
     /// <param name="position">Position in World Space</param>
     /// <returns></returns>
-    public int[] GetNodeFromPosition(Vector3 position)
+    public GameObject GetNodeFromPosition(Vector3 position)
     {
         //find spread of nodes
         float xSpacing = terrain.terrainData.size.x / rows;
@@ -90,7 +109,71 @@ public class GridGenerator : MonoBehaviour {
         int z = (int)position.z;
 
         //give back the node that covers that area
-        int[] values = { x, z };
-        return values;
+        //int[] values = { x, z };
+        return grid[x,z];
+    }
+
+    /// <summary>
+    /// Gets the the all neighbours node on the grid to chosen node
+    /// </summary>
+    /// <param name="node">node that need to get all neighbours</param>
+    /// <returns></returns>
+    public  List<GameObject> GetNodeNeighbours(Node node)
+    {
+        List<GameObject> neighbours = new List<GameObject>();
+//                y            
+//                1           
+// x        -1   node    1
+//               -1  
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                if (x == 0 && y == 0)
+                {
+                    // that is the origin 
+                    continue;
+                }
+
+                int neighbour_x = x + node.x;
+                int neighbour_y = y + node.y;
+                
+                if (neighbour_x >= 0 && neighbour_x < rows && neighbour_y >= 0 && neighbour_y < columns)
+                {
+                    // to check the node is eligible
+                    GameObject neighbour = grid[neighbour_x, neighbour_y];
+
+                    if (neighbour.GetComponent<Node>().walkable)
+                    {
+                        // check the node is walkable
+                        neighbours.Add(grid[neighbour_x, neighbour_y]);
+                    }
+                }
+
+            }
+        }
+//        // add portal connection
+//        if (node.x == 20 && node.y == 20)
+//        {
+//            neighbours.Add(grid[26, 25]);
+//        }else  if (node.x == 26 && node.y == 25)
+//        {
+//            neighbours.Add(grid[20, 20]);
+//        }
+        
+        return neighbours;
+    }
+    public void wipePath()
+    {
+        foreach (var gameObject in grid)
+        {
+            Node node= gameObject.GetComponent<Node>();
+            if (node.parent != null)
+            {
+                gameObject.GetComponent<MeshRenderer>().material = reset;
+            }
+            node.parent = null;
+        }
     }
 }
+

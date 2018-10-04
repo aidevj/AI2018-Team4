@@ -36,7 +36,6 @@ public class Flocker : Vehicle
     protected override void CalcSteeringForces() // Calculate the forces necessary to steer the Dalek to its desired destination (flocking algorithms, obstacle avoidance, etc.)
     {
         steeringForce = Vector3.zero; // Reset the steering force
-
         desired = leaderScript.FollowPoint - transform.position; // Use arrival instead of Seek() to not run into the leader
         sepDist = desired.sqrMagnitude; // Get the comparative distance to the point
         desired.Normalize();
