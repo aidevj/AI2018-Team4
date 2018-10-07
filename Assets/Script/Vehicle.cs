@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-//use the Generic system here to make use of a Flocker array later on
 using System.Collections.Generic;
 
 // This script contains operations and variables that all the scene's vehicles share
@@ -20,10 +18,10 @@ abstract public class Vehicle : MonoBehaviour
     protected Vector3 steer;
     private Vector3 vecToCenter; // Vector for distance in obstacle avoidance calculation
 
-    private Rigidbody rigidB; // This body
+    private Rigidbody rigidB;
     RaycastHit hitInfo; // Stores info on which object is hit
     bool rayHit; // Is it in front of a trigger?
-    Ray ray; // Ray to be cast
+    Ray ray; 
     int layerMask = 1 << 8; // Bit shift to only cast against layer 8
     Vector3[] sightlines; // Ray directions in front of vehicle
 
@@ -37,7 +35,7 @@ abstract public class Vehicle : MonoBehaviour
     abstract protected void CalcSteeringForces(); // Require vehicle children to implement a steering method
 
 
-    virtual public void Start() // Initialize the basic variables for every vehicle
+    virtual public void Start()
     {
         acceleration = Vector3.zero; // No initial movement
         velocity = transform.forward;
@@ -63,7 +61,7 @@ abstract public class Vehicle : MonoBehaviour
 
     protected void ApplyForce(Vector3 steeringForce) // Takes in a force and applies it to the acceleration
     {
-        acceleration += steeringForce / mass; // Apply the force, accounting for mass
+        acceleration += steeringForce / mass;
         acceleration.y = 0;
     }
 
@@ -94,6 +92,6 @@ abstract public class Vehicle : MonoBehaviour
         Debug.DrawLine(transform.position, transform.position + (transform.forward * 5), Color.blue);
 
 
-        return desired; // Return the acceleration
+        return desired;
     }
 }

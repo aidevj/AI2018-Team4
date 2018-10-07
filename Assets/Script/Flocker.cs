@@ -17,24 +17,33 @@ public class Flocker : Vehicle
     private float sepDist; // I also use this one for arrival
     private Vector3 sPartial; // Vectors for separation
     private Vector3 sTotal;
-    private Vector3 steeringForce; // Force for steering
-    private Vector3 separateForce; // Force for separation
+    private Vector3 steeringForce;
+    private Vector3 separateForce;
     public float avoidWeight;
+    public int mapSideLocation = 0;
 
-    override public void Start() // Call Inherited Start and then do our own and initialize the object
+    override public void Start()
     {
-        base.Start(); // Call parent's start
+        base.Start();
         autoRotate = true; // Always face direction of travel
         steeringForce = Vector3.zero; // Initialize the steering force
         desiredSeparation = radius * 2f;  // Separation based on size
         sPartial = Vector3.zero;
         sTotal = Vector3.zero;
-        leaderScript = GameObject.FindGameObjectWithTag("Blu").GetComponent<Leader>(); // Access leader's script
+        leaderScript = GameObject.FindGameObjectWithTag("Blu").GetComponent<Leader>();
         arrivalDistSq = Mathf.Pow(arrivalDist, 2f); // Square once and never again
     }
 
-    protected override void CalcSteeringForces() // Calculate the forces necessary to steer the Dalek to its desired destination (flocking algorithms, obstacle avoidance, etc.)
+    protected override void CalcSteeringForces()
     {
+        // TO DO: CHECK FOR TARGET UPDATE HERE
+        /* 
+         * if Blu is on a different side (mapSideLocation is not same)
+         *     seek the PORTAL that has the recieverID equal to Blu's mapSideLocation
+         *    because then they will be on the same side
+         * once on the same side, flock to the leader again
+        */
+
         steeringForce = Vector3.zero; // Reset the steering force
         desired = leaderScript.FollowPoint - transform.position; // Use arrival instead of Seek() to not run into the leader
         sepDist = desired.sqrMagnitude; // Get the comparative distance to the point

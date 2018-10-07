@@ -13,6 +13,8 @@ public class GridGenerator : MonoBehaviour {
     [SerializeField] private Material reset;
     [SerializeField] private Terrain terrain;
     [SerializeField] private LayerMask unwalkableMask;
+
+    private bool visible = true;    // default on
     
     void Start ()
     {
@@ -25,6 +27,14 @@ public class GridGenerator : MonoBehaviour {
 	
 	void Update ()
     {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            visible = !visible;
+            foreach (GameObject node in grid)
+            {
+                node.SetActive(visible);
+            }
+        }
 	}
 
     

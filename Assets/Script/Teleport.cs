@@ -4,42 +4,25 @@ using UnityEngine;
 
 public class Teleport : MonoBehaviour
 {
-	public Transform player;
-
-	public Transform reciever;
-
-	private bool playerIsOverlapping = false;
-	// Update is called once per frame
-	void Update () {
-		if (playerIsOverlapping)
-		{
-			Vector3 portalToPlayer = player.position - transform.position;
-			float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
-			if (dotProduct < 0f)
-			{
-				float rotationDiff = -Quaternion.Angle(transform.rotation, reciever.rotation);
-				rotationDiff += 0;
-				player.Rotate(Vector3.up,rotationDiff);
-
-				Vector3 postionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
-				player.position = reciever.position + postionOffset;
-				playerIsOverlapping = false;
-			}
-		}
-	}
-
+	public Transform reciever;  // transform of the spot where the agent should teleport to
+    public int recieverID;  // side number this teleporter goes to
+  
+    // if any unit goes into the portal, teleport
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.tag == "Player")
+		if (other.tag == "Player" || other.tag == "Flocker" || other.tag == "Blu")
 		{
-			playerIsOverlapping = true;
+            if (other.tag == "Blu")
+            {
+                other.gameObject.GetComponent<Leader>().mapSideLocation = recieverID;
+            }
+            else if (other.tag == "Flocker")
+            {
+                other.gameObject.GetComponent<Flocker>().mapSideLocation = recieverID;
+            }
+            other.gameObject.transform.position = reciever.position;
+
 		}
 	}
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.tag == "Player")
-		{
-			playerIsOverlapping = false;
-		}
-	}
+    
 }

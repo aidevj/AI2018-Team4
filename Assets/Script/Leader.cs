@@ -13,6 +13,9 @@ public class Leader : MonoBehaviour {
     private Vector3 direction;
 	private int node_index;
 	[SerializeField] private Material walkeable;
+    public int mapSideLocation = 0;    // default side is side 0, other is 1
+
+
     public Vector3 Velocity
     {
         get { return velocity; }
