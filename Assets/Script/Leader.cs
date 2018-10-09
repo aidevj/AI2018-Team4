@@ -15,6 +15,9 @@ public class Leader : MonoBehaviour {
 	[SerializeField] private Material walkeable;
     public int mapSideLocation = 0;    // default side is side 0, other is 1
 
+    public Transform portalTo0;
+    public Transform portalTo1;
+
 
     public Vector3 Velocity
     {

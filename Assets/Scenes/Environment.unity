@@ -752,6 +752,7 @@ Transform:
   - {fileID: 800304855}
   - {fileID: 644177230}
   - {fileID: 1365280659}
+  - {fileID: 223341375}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
@@ -886,6 +887,34 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4ec450bacee0534080146f049e04e15, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &223341374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 223341375}
+  m_Layer: 0
+  m_Name: PortalSeekTo1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &223341375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 223341374}
+  m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -3.8100815, y: -0.012285181, z: -0.19901267}
+  m_LocalScale: {x: 0.60277265, y: 0.6027724, z: 0.12962836}
+  m_Children: []
+  m_Father: {fileID: 133700987}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &263400096
 GameObject:
   m_ObjectHideFlags: 0
@@ -1964,7 +1993,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 644177229}
   m_LocalRotation: {x: -0.70710653, y: 0, z: 0, w: -0.70710707}
-  m_LocalPosition: {x: -2.085, y: -0.009, z: 0.141}
+  m_LocalPosition: {x: -2.085, y: -0.009, z: -0}
   m_LocalScale: {x: 0.44826755, y: 0.56086, z: 0.093985364}
   m_Children: []
   m_Father: {fileID: 133700987}
@@ -4152,6 +4181,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1365280658}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1400335896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1400335897}
+  m_Layer: 0
+  m_Name: PortalSeekTo0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1400335897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1400335896}
+  m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -3.5750005, y: -0.104715794, z: -0.565987}
+  m_LocalScale: {x: 0.60277265, y: 0.6027724, z: 0.12962836}
+  m_Children: []
+  m_Father: {fileID: 1815410260}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1447668483
 GameObject:
   m_ObjectHideFlags: 0
@@ -5538,6 +5595,7 @@ Transform:
   - {fileID: 437361554}
   - {fileID: 2104254695}
   - {fileID: 2071061864}
+  - {fileID: 1400335897}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
@@ -6316,6 +6374,8 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   walkeable: {fileID: 2100000, guid: c2cf95da95e5fc7488f8f29175d4b4a1, type: 2}
   mapSideLocation: 0
+  portalTo0: {fileID: 1400335897}
+  portalTo1: {fileID: 223341375}
   acceleration: {x: 0, y: 0, z: 0}
   maxSpeed: 0
   followDist: 0

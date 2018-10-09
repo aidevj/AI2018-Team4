@@ -7,6 +7,7 @@ using System.Collections;
 public class Flocker : Vehicle
 {
     private Leader leaderScript; // Need to access leader's velocity
+    private Vector3 target;   // used to get the current follow target
     public float followWeight; // Weights for leader following, alignment, cohesion, seperation, and obstacle avoidance
     public float alignWeight;
     public float cohereWeight;
@@ -20,7 +21,9 @@ public class Flocker : Vehicle
     private Vector3 steeringForce;
     private Vector3 separateForce;
     public float avoidWeight;
+
     public int mapSideLocation = 0;
+    private bool wrongSide;
 
     override public void Start()
     {
@@ -36,20 +39,34 @@ public class Flocker : Vehicle
 
     protected override void CalcSteeringForces()
     {
-        // TO DO: CHECK FOR TARGET UPDATE HERE
-        /* 
-         * if Blu is on a different side (mapSideLocation is not same)
-         *     seek the PORTAL that has the recieverID equal to Blu's mapSideLocation
-         *    because then they will be on the same side
-         * once on the same side, flock to the leader again
-        */
+        // checks which side the leader is on to decide whether to seek the portal or not
+        // sometimes they get stuck on the wall of the portal but otherwise it works (maybe needs obstacle avoidance from the portal walls?)
+        if (leaderScript.mapSideLocation != mapSideLocation)
+        {
+            wrongSide = true;
+            switch (leaderScript.mapSideLocation)
+            {
+                case 0:
+                    target = leaderScript.portalTo0.position;
+                    break;
+                case 1:
+                    target = leaderScript.portalTo1.position;
+                    break;
+            }
+        }
+        else
+        {
+            wrongSide = false;
+            target = leaderScript.FollowPoint; // Use arrival instead of Seek() to not run into the leader
+        }
+        
 
         steeringForce = Vector3.zero; // Reset the steering force
-        desired = leaderScript.FollowPoint - transform.position; // Use arrival instead of Seek() to not run into the leader
+        desired = target - transform.position; 
         sepDist = desired.sqrMagnitude; // Get the comparative distance to the point
         desired.Normalize();
 
-        if (sepDist <= arrivalDistSq) // When encroaching on the set area around the point,
+        if (sepDist <= arrivalDistSq && !wrongSide) // When encroaching on the set area around the point (Don't use arrival when seeking the portals so it actually enters)
         {
             desired = desired * (maxSpeed * (Mathf.Sqrt(sepDist) / arrivalDist)); // Scale the desired vector by the distance mapped to speed (equation = map(sD,0,aD,0,mS))
         }
