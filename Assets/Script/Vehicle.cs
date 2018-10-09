@@ -22,7 +22,7 @@ abstract public class Vehicle : MonoBehaviour
     RaycastHit hitInfo; // Stores info on which object is hit
     bool rayHit; // Is it in front of a trigger?
     Ray ray; 
-    int layerMask = 1 << 8; // Bit shift to only cast against layer 8
+    int layerMask = 1 << 9; // Bit shift to only cast against layer 8
     Vector3[] sightlines; // Ray directions in front of vehicle
 
     public float maxSpeed; // Limiting variables, should be initialized in each vehicle child
