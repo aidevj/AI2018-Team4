@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Sorting queue of the priority of items based on their values (lowest -> highest)
-public class PriorityQueue : MonoBehaviour {
+public class PriorityQueue {
 
-    private List<Node> pQueue = new List<Node>();
+    private List<Node> pQueue;
+
+    public PriorityQueue()
+    {
+        pQueue = new List<Node>() { };
+    }
 
     /// <summary>
     /// Add item into the queue

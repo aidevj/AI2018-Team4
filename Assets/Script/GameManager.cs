@@ -37,9 +37,8 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            leader.GetComponent<Leader>().setpath(
-                leader.GetComponent<AStar>().Pathfind(leader.transform.position,player.transform.position)
-                    );
+            List<GameObject> path = leader.GetComponent<AStar>().Pathfind(leader.transform.position, player.transform.position);
+            if (path.Count != 0) leader.GetComponent<Leader>().setpath(path);
         }
         
         if (Input.GetKeyDown(KeyCode.U))

@@ -117,11 +117,12 @@ MonoBehaviour:
   radius: 5
   mass: 1
   followWeight: 30
-  alignWeight: 6
-  cohereWeight: 8
-  separateWeight: 3
-  arrivalDist: 10
+  alignWeight: 2
+  cohereWeight: 5
+  separateWeight: 5
+  arrivalDist: 5
   avoidWeight: 20
+  mapSideLocation: 0
 --- !u!136 &136130946712912686
 CapsuleCollider:
   m_ObjectHideFlags: 1
