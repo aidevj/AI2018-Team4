@@ -10,113 +10,82 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    [HideInInspector] public GameObject leader; // Leader of the flock
-    private GameObject centroid; // Vector and property for the position of the center point of the flock
-    private GameObject player;
-    public GameObject Centroid
-    {
-        get { return centroid; }
-    }
-    private GameObject[] flock; // Variable and property for the array that makes up the flock
-    public GameObject[] Flock
-    {
-        get { return flock; }
-    }
+    RaycastHit hit;
+    Ray mouseray;
+    public GameObject black;
+    public GameObject yellow;
+    public GameObject blue;
+    public GameObject white;
+    [SerializeField] private UnityEngine.UI.Text uitext;
+
+    public int blackStrength = 4;
+    public int yellowStrength = 3;
+    public int blueStrength = 2;
+    public int whiteStrength = 1;
+
+    private string currentColor = "black";
+    private string currentTeam = "green";
+    private GameObject hoveredNode;
 
     void Start() // Initialize the scene
     {
-        player = GameObject.FindGameObjectWithTag("Player"); 
-        centroid = GameObject.FindGameObjectWithTag("Centroid"); // Get the centroid
-
-        leader = GameObject.FindGameObjectWithTag("Blu"); // Get the Leader from the scene
-
-        flock = GameObject.FindGameObjectsWithTag("Flocker"); // Get the Flockers from the scene. Order doesn't matter.
     }
 
     void Update() // Update the scene variables, called once per frame
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.R)) currentTeam = "red";
+        if (Input.GetKeyDown(KeyCode.G)) currentTeam = "green";
+        if (Input.GetKeyDown(KeyCode.Alpha1)) currentColor = "white";
+        if (Input.GetKeyDown(KeyCode.Alpha2)) currentColor = "blue";
+        if (Input.GetKeyDown(KeyCode.Alpha3)) currentColor = "yellow";
+        if (Input.GetKeyDown(KeyCode.Alpha4)) currentColor = "black";
+        string text = uitext.text;
+        int index = text.LastIndexOf("Current Team");
+        if (index > 0)
+            text = text.Substring(0, index);
+        text += "Current Team: " + currentTeam;
+        text += "\nCurrent Color: " + currentColor;
+        uitext.text = text;
+
+        Debug.DrawRay(Camera.main.ScreenPointToRay(Input.mousePosition).origin, Camera.main.ScreenPointToRay(Input.mousePosition).direction.normalized * 300f, Color.red);
+
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 300f, 1<<10)) // Raycast from cursor, check against any interactables
         {
-            List<GameObject> path = leader.GetComponent<AStar>().Pathfind(leader.transform.position, player.transform.position);
-            if (path.Count != 0) leader.GetComponent<Leader>().setpath(path);
-        }
-        
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            foreach (GameObject flocker in flock)
+            if (hoveredNode) hoveredNode.transform.localScale = new Vector3(3, 1, 3);
+            hit.transform.localScale = new Vector3(4, 1, 4);
+            hoveredNode = hit.transform.gameObject;
+
+            if (Input.GetMouseButtonDown(0) && hit.transform.gameObject.GetComponent<Node>().containedUnit == 0)
             {
-                flocker.GetComponent<Flocker>().followWeight--;
+
+                //update influence map
+                GameObject newObject;
+                switch (currentColor)
+                {
+                    case "white":
+                        newObject = Instantiate(white, hit.transform.position, Quaternion.identity);
+                        hit.transform.gameObject.GetComponent<Node>().containedUnit = whiteStrength;
+                        break;
+                    case "blue":
+                        newObject = Instantiate(blue, hit.transform.position, Quaternion.identity);
+                        hit.transform.gameObject.GetComponent<Node>().containedUnit = blueStrength;
+                        break;
+                    case "yellow":
+                        newObject = Instantiate(yellow, hit.transform.position, Quaternion.identity);
+                        hit.transform.gameObject.GetComponent<Node>().containedUnit = yellowStrength;
+                        break;
+                    case "black":
+                        newObject = Instantiate(black, hit.transform.position, Quaternion.identity);
+                        Debug.Log("fuck "+newObject.transform.position);
+                        hit.transform.gameObject.GetComponent<Node>().containedUnit = blackStrength;
+                        break;
+                    default:
+                        newObject = Instantiate(black, hit.transform.position, Quaternion.identity);
+                        hit.transform.gameObject.GetComponent<Node>().containedUnit = blackStrength;
+                        break;
+                }
             }
         }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            foreach (GameObject flocker in flock)
-            {
-                flocker.GetComponent<Flocker>().followWeight++;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            foreach (GameObject flocker in flock)
-            {
-                flocker.GetComponent<Flocker>().alignWeight--;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            foreach (GameObject flocker in flock)
-            {
-                flocker.GetComponent<Flocker>().alignWeight++;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            foreach (GameObject flocker in flock)
-            {
-                flocker.GetComponent<Flocker>().cohereWeight--;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            foreach (GameObject flocker in flock)
-            {
-                flocker.GetComponent<Flocker>().cohereWeight++;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            foreach (GameObject flocker in flock)
-            {
-                flocker.GetComponent<Flocker>().separateWeight--;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            foreach (GameObject flocker in flock)
-            {
-                flocker.GetComponent<Flocker>().separateWeight++;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            foreach (GameObject flocker in flock)
-            {
-                flocker.GetComponent<Flocker>().avoidWeight--;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            foreach (GameObject flocker in flock)
-            {
-                flocker.GetComponent<Flocker>().avoidWeight++;
-            }
-        }
-        for (int i = 0; i < flock.Length; i++) // Update the flocking variables
-        {
-            centroid.transform.forward += flock[i].transform.forward; // Add all the Daleks' directions and positions,
-            centroid.transform.position += flock[i].transform.position;
-        }
-        centroid.transform.forward = centroid.transform.forward / flock.Length; // Then divide them by the number of Daleks to compute the average
-        centroid.transform.position = centroid.transform.position / flock.Length;
+        else if (hoveredNode) hoveredNode.transform.localScale = new Vector3(3, 1, 3);
     }
 }

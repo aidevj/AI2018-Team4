@@ -14,6 +14,7 @@ public class Node : MonoBehaviour
 	public int g;  // the cost of the path from the start node to n
 	public int h;  // a heuristic function that estimates the cost of the cheapest path from n to the goal 
 	public Node parent;
+    public int containedUnit = 0;
 
 	public void setNode(bool _walkable, Vector3 _worldPosition, int _index_x, int _index_y)
 	{
