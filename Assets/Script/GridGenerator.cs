@@ -6,13 +6,16 @@ using UnityEngine;
 public class GridGenerator : MonoBehaviour {
     
     [SerializeField] private GameObject[,] grid;
-    [SerializeField] private int rows;
-    [SerializeField] private int columns;
+    public int rows;
+    public int columns;
     [SerializeField] private GameObject nodePrefab;
     [SerializeField] private GameObject unwalkable_nodePrefab;
     [SerializeField] private Material reset;
     [SerializeField] private Terrain terrain;
     [SerializeField] private LayerMask unwalkableMask;
+    private HashSet<Node> retList;
+    
+    public static GridGenerator _instance;
 
     private bool visible = true;    // default on
     
@@ -20,7 +23,7 @@ public class GridGenerator : MonoBehaviour {
     {
         // instantiate grid
         grid = new GameObject[rows, columns];
-
+        _instance = this;
         //fill grid with nodes
         GenerateGrid();
     }
@@ -72,9 +75,6 @@ public class GridGenerator : MonoBehaviour {
                         myScriptReference.setNode(walkable,pos,x,z);
                     }
                 }
-
-                
-                
                 // add to matrix
                 grid[x, z] = node;
 
@@ -159,7 +159,6 @@ public class GridGenerator : MonoBehaviour {
                         neighbours.Add(grid[neighbour_x, neighbour_y]);
                     }
                 }
-
             }
         }
 //        // add portal connection
@@ -185,5 +184,44 @@ public class GridGenerator : MonoBehaviour {
             node.parent = null;
         }
     }
+    
+     public void RangeUpdate(Node center,int range,Team curTeam)
+    {
+        // Player moved; Stealth Detection
+        //process_status_check(center.x, center.y,range,curTeam);
+        for (int x = 0; x <= range; x++)
+        {
+            for (int y = 0; y <= range; y++)
+            {
+                if (x + y <= range)
+                {
+                    // tile is out of range or already highlight
+                    if (x != 0 && y != 0)
+                    {
+                        process_status_check(center.x + x, center.y + y,range - x - y,curTeam);
+                        process_status_check(center.x - x, center.y + y,range - x - y,curTeam);
+                        process_status_check(center.x - x, center.y - y,range - x - y,curTeam);
+                        process_status_check(center.x + x, center.y - y,range - x - y,curTeam);
+                    }else if (x == 0 && y != 0)
+                    {
+                        process_status_check(center.x, center.y + y,range - x - y,curTeam);
+                        process_status_check(center.x - x, center.y - y,range - x - y,curTeam);
+                    }else if (x != 0 && y == 0)
+                    {
+                        process_status_check(center.x + x, center.y,range - x - y,curTeam);
+                        process_status_check(center.x - x, center.y,range - x - y,curTeam);
+                    }
+                }        
+            }
+        }
+
+        //recheck_for_Obstacles(center,detection_range);
+    }
+    private void process_status_check(int x, int y, int strength,Team curTeam)
+    {
+        //Debug.Log("x:" + x +" y: "+ y);
+        grid[x, y].GetComponent<Node>().addInfluence(strength,curTeam);
+    }
+    
 }
 
