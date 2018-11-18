@@ -87,7 +87,6 @@ public class GameManager : MonoBehaviour
                         break;
                     case "black":
                         newObject = Instantiate(black, hit.transform.position, Quaternion.identity);
-                        Debug.Log("fuck "+newObject.transform.position);//wow, language
                         //hit.transform.gameObject.GetComponent<Node>().containedUnit = blackStrength;
                         hit.transform.gameObject.GetComponent<Node>().addInfluence(blackStrength,currentTeam);
                         currentStrength = blackStrength;
